@@ -1,34 +1,58 @@
-import React from "react";
+import React, { useContext } from "react";
 import { assets, songsData } from "../Assets/assets";
+import { PlayerContext } from "../context/PlayerContext";
 const Player = () => {
+  const { seekBar,track, seekbg, playStatus, play, pause, prev, next, time } =
+    useContext(PlayerContext);
   return (
     <div className="h-[10%] bg-black flex justify-between items-center text-white -x-4">
       <div className="hidden lg:flex items-center gap-4 pl-5">
-        <img className="w-12 " src={songsData[0].image} alt="" />
+        <img className="w-12 " src={track.image} alt="" />
         <div className="">
-          <p>{songsData[0].name}</p>
-          <p>{songsData[0].desc.slice(0, 12)}</p>
+          <p>{track.name}</p>
+          <p>{track.desc.slice(0, 12)}</p>
         </div>
       </div>
-      <div className="flex flex-col items-center fap-1 m-auto">
+      <div className="flex flex-col items-center gap-1 m-auto">
         <div className="flex gap-4">
-          <img className="w-4 cursor-pointer" src={assets.shuffle_icon} alt="" />
-          <img className="w-4 cursor-pointer" src={assets.prev_icon} alt="" />
-          <img className="w-4 cursor-pointer" src={assets.play_icon} alt="" />
-          <img className="w-4 cursor-pointer" src={assets.next_icon} alt="" />
+          <img
+            className="w-4 cursor-pointer"
+            src={assets.shuffle_icon}
+            alt=""
+          />
+          <img onClick={prev} className="w-4 cursor-pointer" src={assets.prev_icon} alt="" />
+          {playStatus ? (
+            <img
+              onClick={pause}
+              className="w-4 cursor-pointer"
+              src={assets.pause_icon}
+              alt=""
+            />
+          ) : (
+            <img
+              onClick={play}
+              className="w-4 cursor-pointer"
+              src={assets.play_icon}
+              alt=""
+            />
+          )}
+          <img onClick={next} className="w-4 cursor-pointer" src={assets.next_icon} alt="" />
           <img className="w-4 cursor-pointer" src={assets.loop_icon} alt="" />
         </div>
         <div className="flex items-center gap-5">
-          <p>1:06</p>
+          <p>{time.currentTime.minute}:{time.currentTime.second}</p>
 
-          <div className="relative max-w-[500px] w-[60vw] h-1 bg-gray-300 rounded-full cursor-pointer">
-            <div
-              className="absolute top-0 left-0 h-full bg-green-800 rounded-full"
-              style={{ width: "50%" }}
-            ></div>
+          <div
+            ref={seekbg}
+            className="max-w-[500px] w-[60vw] h-1 bg-gray-300 rounded-full cursor-pointer"
+          >
+            <hr
+              ref={seekBar}
+              className="h-1 border-none w-0 bg-green-800 rounded-full"
+            />
           </div>
 
-          <p>3:20</p>
+          <p>{time.totalTime.minute}:{time.totalTime.second}</p>
         </div>
       </div>
       <div className="hidden lg:flex items-center gap-2 opacity-75">
@@ -41,7 +65,6 @@ const Player = () => {
         <img className="w-4" src={assets.mini_player_icon} alt="" />
         <img className="w-4" src={assets.zoom_icon} alt="" />
       </div>
-
     </div>
   );
 };
