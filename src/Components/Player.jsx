@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { assets, songsData } from "../Assets/assets";
 import { PlayerContext } from "../context/PlayerContext";
 const Player = () => {
-  const { seekBar,track, seekbg, playStatus, play, pause, prev, next, time } =
+  const { seekBar,track, seekbg, playStatus, play, pause, prev, next, time, seeksong } =
     useContext(PlayerContext);
   return (
     <div className="h-[10%] bg-black flex justify-between items-center text-white -x-4">
@@ -44,6 +44,7 @@ const Player = () => {
 
           <div
             ref={seekbg}
+            onClick={seeksong}
             className="max-w-[500px] w-[60vw] h-1 bg-gray-300 rounded-full cursor-pointer"
           >
             <hr
